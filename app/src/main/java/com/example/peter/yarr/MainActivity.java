@@ -1,6 +1,11 @@
 package com.example.peter.yarr;
 
+import android.content.Context;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -20,6 +25,9 @@ public class MainActivity extends AppCompatActivity implements DownloadCompleteL
     String urlBefore = "http://www.reddit.com/r/";
     String urlAfter = ".json";
 
+    //Media player will play default ringtone while data is loading
+    MediaPlayer player;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,12 +35,15 @@ public class MainActivity extends AppCompatActivity implements DownloadCompleteL
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
         final DownloadCompleteListener listener = this;
 
         Button go = (Button) findViewById(R.id.btnGo);
         go.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                player = MediaPlayer.create(MainActivity.this,Settings.System.DEFAULT_RINGTONE_URI);
+                player.start();
                 EditText subreddit = (EditText)findViewById(R.id.tbSubreddit);
                 String sub = subreddit.getText().toString();
                 if (!sub.equals(null)){
@@ -76,6 +87,12 @@ public class MainActivity extends AppCompatActivity implements DownloadCompleteL
     }
     public void complete(ArrayList<Post> p){
         ListView listView = (ListView) findViewById(R.id.listView);
-        listView.setAdapter(new RedditAdapter(this,p));
+        listView.setAdapter(new RedditAdapter(this, p));
+
+        if (player!= null && player.isPlaying())
+        {
+            player.stop();
+            player.reset();
+        }
     }
 }
