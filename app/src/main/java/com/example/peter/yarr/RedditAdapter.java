@@ -29,20 +29,20 @@ public class RedditAdapter extends BaseAdapter {
 
     }
     public View getView(int i, View view, ViewGroup viewGroup) {
-        Post post = posts.get(i);
-        TextView postTitle;
+        if(view == null) {
+            Post post = posts.get(i);
+            TextView postTitle;
+            LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = inflater.inflate(R.layout.reddit_post, viewGroup, false);
 
-        LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        view = inflater.inflate(R.layout.reddit_post,viewGroup,false);
+            //Sets the text in the view
+            postTitle = (TextView) view.findViewById(R.id.lblPostTitle);
+            Log.d("Inflated title", post.getTitle() + "");
+            postTitle.setText(post.getTitle());
+        }
+            return view;
 
-
-        //Sets the text in the view
-        postTitle = (TextView) view.findViewById(R.id.lblPostTitle);
-        Log.d("Inflated title", post.getTitle() + "");
-        postTitle.setText(post.getTitle());
-
-        return view;
     }
     public long getItemId(int i) {
         return i;
