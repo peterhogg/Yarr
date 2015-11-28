@@ -13,9 +13,22 @@
     tools:showIn="@layout/activity_main">
 
 
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/subreddit_hint"
+        android:id="@+id/tbSubreddit"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/go"
+        android:id="@+id/btnGo"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/tbSubreddit" />
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/listView"
+        android:layout_below="@id/btnGo"
         android:layout_alignParentStart="true" />
 </RelativeLayout>

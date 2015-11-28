@@ -58,7 +58,12 @@ public class RedditAdapter extends BaseAdapter {
             postTitle.setText(post.getTitle());
             postScore.setText(post.getScore() + "");
             postAuthor.setText(post.getAuthor());
-            postLink.setText(post.getLink().substring(0,40) + "...");
+            String link = post.getLink();
+            if(link.length() > 40) {
+                postLink.setText(link.substring(0, 40) + "...");
+            }else {
+                postLink.setText(link);
+            }
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override

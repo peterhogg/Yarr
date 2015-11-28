@@ -5,13 +5,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements DownloadCompleteListener {
+
+
+    String urlBefore = "http://www.reddit.com/r/";
+    String urlAfter = ".json";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,13 +26,28 @@ public class MainActivity extends AppCompatActivity implements DownloadCompleteL
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        RedditDownloader rd = new RedditDownloader(this);
-        try{
-            URL url = new URL("http://www.reddit.com/r/hearthstone.json");
-            rd.execute(url);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+
+        final DownloadCompleteListener listener = this;
+
+        Button go = (Button) findViewById(R.id.btnGo);
+        go.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditText subreddit = (EditText)findViewById(R.id.tbSubreddit);
+                String sub = subreddit.getText().toString();
+                if (!sub.equals(null)){
+                    RedditDownloader rd = new RedditDownloader(listener);
+                    try{
+                        URL url = new URL(urlBefore + sub +urlAfter);
+                        rd.execute(url);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        });
+
 
 
 
