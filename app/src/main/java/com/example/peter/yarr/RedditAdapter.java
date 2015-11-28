@@ -35,12 +35,20 @@ public class RedditAdapter extends BaseAdapter {
         if(view == null) {
             final Post post = posts.get(i);
             TextView postTitle;
+            TextView postScore;
+            TextView postAuthor;
+            TextView postLink;
+
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.reddit_post, viewGroup, false);
 
+            postTitle = (TextView) view.findViewById(R.id.lblTitle);
+            postScore = (TextView) view.findViewById(R.id.lblScore);
+            postAuthor = (TextView) view.findViewById(R.id.lblAuthor);
+            postLink = (TextView) view.findViewById(R.id.lblLink);
 
             //Sets the text in the view
-            postTitle = (TextView) view.findViewById(R.id.lblPostTitle);
+
             /*
             Log.d("title", post.getTitle() + "");
             Log.d("author", post.getAuthor() + "");
@@ -48,6 +56,9 @@ public class RedditAdapter extends BaseAdapter {
             Log.d("url", post.getLink().toString() + "");
             */
             postTitle.setText(post.getTitle());
+            postScore.setText(post.getScore() + "");
+            postAuthor.setText(post.getAuthor());
+            postLink.setText(post.getLink().substring(0,40) + "...");
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
