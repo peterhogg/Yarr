@@ -40,11 +40,19 @@ public class RedditDownloader extends AsyncTask<URL, Void, ArrayList<Post>> {
 
             reader.close();
             JSONObject data = new JSONObject(rawData);
-            Post post = new Post();
+
+            JSONArray redditPosts = data.getJSONObject("data").getJSONArray("children");
+            for (int i = 0; i < redditPosts.length(); i ++){
+                Post post = new Post();
+                post.setTitle(redditPosts.getJSONObject(i).getJSONObject("data").getString("title"));
+                posts.add(posts.size(), post);
+            }
+            /*Post post = new Post();
             String title = data.getJSONObject("data").getJSONArray("children").getJSONObject(0).getJSONObject("data").getString("title");
             post.setTitle(title);
             Log.d("title", title);
             posts.add(posts.size(), post);
+            */
 
         }
         catch(Exception e){
