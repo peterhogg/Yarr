@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.widget.ListView;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements DownloadCompleteListener {
@@ -51,8 +52,8 @@ public class MainActivity extends AppCompatActivity implements DownloadCompleteL
 
         return super.onOptionsItemSelected(item);
     }
-    public void complete(List<Post> p){
+    public void complete(ArrayList<Post> p){
         ListView listView = (ListView) findViewById(R.id.listView);
-        listView.setAdapter(new RedditAdapter(this));
+        listView.setAdapter(new RedditAdapter(this,p));
     }
 }

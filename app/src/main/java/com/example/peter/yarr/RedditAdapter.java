@@ -1,6 +1,7 @@
 package com.example.peter.yarr;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,13 +18,14 @@ import java.util.ArrayList;
 public class RedditAdapter extends BaseAdapter {
     private Context context;
     ArrayList<Post> posts;
-    public RedditAdapter(Context c){
+    public RedditAdapter(Context c, ArrayList<Post> p){
         this.context = c;
-        posts = new ArrayList<>();
+        posts = p;
     }
 
     public int getCount(){
         return posts.size();
+
 
     }
     public View getView(int i, View view, ViewGroup viewGroup) {
@@ -37,7 +39,8 @@ public class RedditAdapter extends BaseAdapter {
 
         //Sets the text in the view
         postTitle = (TextView) view.findViewById(R.id.lblPostTitle);
-        postTitle.setText(post.title);
+        Log.d("Inflated title", post.getTitle() + "");
+        postTitle.setText(post.getTitle());
 
         return view;
     }

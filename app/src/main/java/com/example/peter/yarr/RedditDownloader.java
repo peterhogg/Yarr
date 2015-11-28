@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by peter on 27/11/15.
  */
-public class RedditDownloader extends AsyncTask<URL, Void, List<Post>> {
+public class RedditDownloader extends AsyncTask<URL, Void, ArrayList<Post>> {
     private DownloadCompleteListener listener = null;
 
     public RedditDownloader(DownloadCompleteListener listener) {
@@ -24,7 +24,7 @@ public class RedditDownloader extends AsyncTask<URL, Void, List<Post>> {
     }
 
     @Override
-    protected List<Post> doInBackground(URL... params) {
+    protected ArrayList<Post> doInBackground(URL... params) {
         ArrayList<Post> posts = new ArrayList<>();
         BufferedReader reader = null;
         try {
@@ -39,11 +39,10 @@ public class RedditDownloader extends AsyncTask<URL, Void, List<Post>> {
             String rawData = buffer.toString();
 
             reader.close();
-            JSONArray data = new JSONArray(rawData);
+            JSONObject data = new JSONObject(rawData);
             Post post = new Post();
-            String title = data.getJSONObject(1).getJSONObject("data").getJSONObject("children").getJSONObject("0").getJSONObject("data").getString("title");
-            Post p = new Post();
-            p.setTitle(title);
+            String title = data.getJSONObject("data").getJSONArray("children").getJSONObject(0).getJSONObject("data").getString("title");
+            post.setTitle(title);
             Log.d("title", title);
             posts.add(posts.size(), post);
 
@@ -59,7 +58,7 @@ public class RedditDownloader extends AsyncTask<URL, Void, List<Post>> {
     }
 
     @Override
-    protected void onPostExecute(List<Post> result) {
+    protected void onPostExecute(ArrayList<Post> result) {
         listener.complete(result);
     }
 }
