@@ -1,6 +1,5 @@
 package com.example.peter.yarr;
 
-import java.net.URL;
 
 /**
  * Created by peter on 27/11/15.
@@ -9,13 +8,13 @@ public class Post {
     String title;
     int score;
     String author;
-    URL link;
+    String link;
 
     public void setAuthor(String author) {
         this.author = author;
     }
 
-    public void setLink(URL link) {
+    public void setLink(String link) {
         this.link = link;
     }
 
@@ -39,8 +38,7 @@ public class Post {
         return title;
     }
 
-    public URL getLink() {
+    public String getLink() {
         return link;
     }
-
 }

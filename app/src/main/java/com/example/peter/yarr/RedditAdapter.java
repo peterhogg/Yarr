@@ -1,6 +1,9 @@
 package com.example.peter.yarr;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +33,7 @@ public class RedditAdapter extends BaseAdapter {
     }
     public View getView(int i, View view, ViewGroup viewGroup) {
         if(view == null) {
-            Post post = posts.get(i);
+            final Post post = posts.get(i);
             TextView postTitle;
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.reddit_post, viewGroup, false);
@@ -38,8 +41,23 @@ public class RedditAdapter extends BaseAdapter {
 
             //Sets the text in the view
             postTitle = (TextView) view.findViewById(R.id.lblPostTitle);
-            Log.d("Inflated title", post.getTitle() + "");
+            /*
+            Log.d("title", post.getTitle() + "");
+            Log.d("author", post.getAuthor() + "");
+            Log.d("score", post.getScore() + "");
+            Log.d("url", post.getLink().toString() + "");
+            */
             postTitle.setText(post.getTitle());
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(post.getLink()));
+                    context.startActivity(i);
+
+                }
+            });
         }
             return view;
 
