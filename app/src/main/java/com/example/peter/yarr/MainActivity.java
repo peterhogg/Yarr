@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements DownloadCompleteL
             @Override
             public void onClick(View view) {
                 //Plays a ring tone while the content is being downloaded
-                player = MediaPlayer.create(MainActivity.this,Settings.System.DEFAULT_RINGTONE_URI);
+                player = MediaPlayer.create(MainActivity.this, Settings.System.DEFAULT_RINGTONE_URI);
                 player.start();
 
                 //Deletes the subreddit exaples
@@ -58,14 +59,14 @@ public class MainActivity extends AppCompatActivity implements DownloadCompleteL
                     examplesDeleted = true;
                 }
 
-                EditText subreddit = (EditText)findViewById(R.id.tbSubreddit);
+                EditText subreddit = (EditText) findViewById(R.id.tbSubreddit);
                 String sub = subreddit.getText().toString();
-                if (!sub.equals(null)){
+                if (!sub.equals(null)) {
                     RedditDownloader rd = new RedditDownloader(MainActivity.this, MainActivity.this);
-                    try{
-                        URL url = new URL(urlBefore + sub +urlAfter);
+                    try {
+                        URL url = new URL(urlBefore + sub + urlAfter);
                         rd.execute(url);
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
 
@@ -100,8 +101,14 @@ public class MainActivity extends AppCompatActivity implements DownloadCompleteL
         return super.onOptionsItemSelected(item);
     }
     public void complete(ArrayList<Post> p){
-        ListView listView = (ListView) findViewById(R.id.listView);
-        listView.setAdapter(new RedditAdapter(this, p));
+        if(p.size() > 0) {
+            ListView listView = (ListView) findViewById(R.id.listView);
+            listView.setAdapter(new RedditAdapter(this, p));
+        }
+        else {
+            Toast toast = Toast.makeText(MainActivity.this, R.string.error, Toast.LENGTH_SHORT);
+            toast.show();
+        }
 
         if (player!= null && player.isPlaying())
         {

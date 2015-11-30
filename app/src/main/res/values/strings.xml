@@ -5,4 +5,5 @@
     <string name="subreddit_examples">Examples:\n - pics\n - funny\n - aww</string>
     <string name="go">Go</string>
     <string name="title_activity_splash">SplashActivity</string>
+    <string name="error">Sorry,\nThe subreddit you entered was not found</string>
 </resources>
