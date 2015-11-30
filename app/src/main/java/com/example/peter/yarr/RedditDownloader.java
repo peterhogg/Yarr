@@ -1,6 +1,8 @@
 package com.example.peter.yarr;
 
+import android.content.Context;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -17,10 +19,12 @@ import java.util.List;
  * Created by peter on 27/11/15.
  */
 public class RedditDownloader extends AsyncTask<URL, Void, ArrayList<Post>> {
-    private DownloadCompleteListener listener = null;
+    private DownloadCompleteListener listener;
+    private Context context;
 
-    public RedditDownloader(DownloadCompleteListener listener) {
+    public RedditDownloader(DownloadCompleteListener listener, Context context) {
         this.listener = listener;
+        this.context = context;
     }
 
     @Override
@@ -28,19 +32,35 @@ public class RedditDownloader extends AsyncTask<URL, Void, ArrayList<Post>> {
         ArrayList<Post> posts = new ArrayList<>();
         BufferedReader reader = null;
         try {
+
             URL url = params[0];
-            reader = new BufferedReader(new InputStreamReader(url.openStream()));
-            StringBuffer buffer = new StringBuffer();
-            int read;
-            char[] chars = new char[1024];
-            while ((read = reader.read(chars)) != -1)
-                buffer.append(chars, 0, read);
 
-            String rawData = buffer.toString();
+            //Checks if the data exsists in the shared prefferences
+            String rawData;
+            rawData = PreferenceManager.getDefaultSharedPreferences(context).getString(url.toString(),null) ;
 
-            reader.close();
+            if (rawData == null) {
+                Log.d("Downloading", "Downloading New JSON Data");
+                reader = new BufferedReader(new InputStreamReader(url.openStream()));
+                StringBuffer buffer = new StringBuffer();
+                int read;
+                char[] chars = new char[1024];
+                while ((read = reader.read(chars)) != -1)
+                    buffer.append(chars, 0, read);
+
+                rawData = buffer.toString();
+
+                reader.close();
+
+                //Saves the JSON data
+                PreferenceManager.getDefaultSharedPreferences(context).edit().putString(url.toString(), rawData).apply();
+            }
+
+
+
             JSONObject data = new JSONObject(rawData);
 
+            //Saves the post data into a list of posts
             JSONArray redditPosts = data.getJSONObject("data").getJSONArray("children");
             for (int i = 0; i < redditPosts.length(); i ++){
                 Post post = new Post();

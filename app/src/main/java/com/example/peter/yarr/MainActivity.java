@@ -29,6 +29,9 @@ public class MainActivity extends AppCompatActivity implements DownloadCompleteL
     //Media player will play default ringtone while data is loading
     MediaPlayer player;
 
+    //A boolean to flag when the examples are deleted
+    Boolean examplesDeleted;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,8 +39,7 @@ public class MainActivity extends AppCompatActivity implements DownloadCompleteL
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-        final DownloadCompleteListener listener = this;
+        examplesDeleted = false;
 
         Button go = (Button) findViewById(R.id.btnGo);
         go.setOnClickListener(new View.OnClickListener() {
@@ -48,13 +50,16 @@ public class MainActivity extends AppCompatActivity implements DownloadCompleteL
                 player.start();
 
                 //Deletes the subreddit exaples
-                TextView examples = (TextView)findViewById(R.id.lblSubredditExamples);
-                ((ViewGroup) examples.getParent()).removeView(examples);
+                if (!examplesDeleted) {
+                    TextView examples = (TextView) findViewById(R.id.lblSubredditExamples);
+                    ((ViewGroup) examples.getParent()).removeView(examples);
+                    examplesDeleted = true;
+                }
 
                 EditText subreddit = (EditText)findViewById(R.id.tbSubreddit);
                 String sub = subreddit.getText().toString();
                 if (!sub.equals(null)){
-                    RedditDownloader rd = new RedditDownloader(listener);
+                    RedditDownloader rd = new RedditDownloader(MainActivity.this, MainActivity.this);
                     try{
                         URL url = new URL(urlBefore + sub +urlAfter);
                         rd.execute(url);
