@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -42,8 +43,14 @@ public class MainActivity extends AppCompatActivity implements DownloadCompleteL
         go.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Plays a ring tone while the content is being downloaded
                 player = MediaPlayer.create(MainActivity.this,Settings.System.DEFAULT_RINGTONE_URI);
                 player.start();
+
+                //Deletes the subreddit exaples
+                TextView examples = (TextView)findViewById(R.id.lblSubredditExamples);
+                ((ViewGroup) examples.getParent()).removeView(examples);
+
                 EditText subreddit = (EditText)findViewById(R.id.tbSubreddit);
                 String sub = subreddit.getText().toString();
                 if (!sub.equals(null)){

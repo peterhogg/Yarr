@@ -25,6 +25,16 @@
         android:id="@+id/btnGo"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/tbSubreddit" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textSize="30dp"
+        android:id="@+id/lblSubredditExamples"
+        android:textColor="@color/colorAccent"
+        android:layout_below="@id/btnGo"
+        android:text="@string/subreddit_examples"
+        />
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
