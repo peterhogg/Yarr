@@ -1,10 +1,12 @@
 package com.example.peter.yarr;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -106,5 +108,10 @@ public class MainActivity extends AppCompatActivity implements DownloadCompleteL
             player.stop();
             player.reset();
         }
+    }
+    public void clearDownloadedData(MenuItem item){
+        PreferenceManager.getDefaultSharedPreferences(MainActivity.this).edit().clear().commit();
+
+
     }
 }
