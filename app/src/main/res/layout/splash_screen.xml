@@ -3,9 +3,33 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView android:id="@+id/splashscreen" android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:layout_gravity="center_horizontal"
+        android:textAllCaps="true"
+        android:textSize="30dp"
+        android:paddingTop="15dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name_secondary"
+        android:layout_gravity="center_horizontal"
+        android:textAllCaps="true"
+        android:textSize="30dp"
+        android:paddingTop="20dp"
+        android:textAlignment="center"
+    />
+
+
+    <ImageView android:id="@+id/splashscreen"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:src="@drawable/yarr"
+        android:src="@drawable/redditpirate"
         android:layout_gravity="center"/>
+
+
 
 </LinearLayout>
